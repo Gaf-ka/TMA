@@ -3,444 +3,449 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Демонстрационный сайт для обучения</title>
+    <title>Змейка - Игра</title>
     <style>
-        /* Общие стили */
         * {
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        body {
             margin: 0;
             padding: 0;
-            background-color: #f5f5f5;
-            color: #333;
-            line-height: 1.6;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
         }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
+        
+        body {
+            background-color: #121212;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
             padding: 20px;
         }
         
-        /* Навигация */
-        nav {
-            background-color: #2c3e50;
-            padding: 15px 0;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        nav ul {
-            display: flex;
-            justify-content: center;
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        nav li {
-            margin: 0 15px;
-        }
-        nav a {
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
-            padding: 5px 10px;
-            border-radius: 4px;
-            transition: background-color 0.3s;
-        }
-        nav a:hover {
-            background-color: #34495e;
-        }
-        nav a.active {
-            background-color: #e74c3c;
-        }
-        
-        /* Страницы */
-        .page {
-            display: none;
-            animation: fadeIn 0.5s;
-        }
-        .page.active {
-            display: block;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        
-        /* Главная страница */
-        .hero {
-            background: linear-gradient(135deg, #3498db, #2c3e50);
-            color: white;
-            padding: 80px 20px;
+        header {
             text-align: center;
-            border-radius: 8px;
-            margin-bottom: 30px;
-        }
-        .hero h1 {
-            font-size: 2.5rem;
             margin-bottom: 20px;
         }
-        .hero p {
-            font-size: 1.2rem;
-            max-width: 800px;
-            margin: 0 auto 30px;
-        }
-        .btn {
-            display: inline-block;
-            background-color: #e74c3c;
-            color: white;
-            padding: 12px 30px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: transform 0.3s, background-color 0.3s;
-        }
-        .btn:hover {
-            background-color: #c0392b;
-            transform: translateY(-3px);
+        
+        h1 {
+            color: #4CAF50;
+            margin-bottom: 10px;
         }
         
-        /* Блог-пост */
-        .blog-post {
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            overflow: hidden;
-            margin-bottom: 40px;
-        }
-        .post-header {
+        .game-container {
             position: relative;
-        }
-        .post-image {
             width: 100%;
-            height: 400px;
-            object-fit: cover;
+            max-width: 500px;
         }
-        .post-title {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: rgba(0,0,0,0.7);
-            color: white;
-            padding: 20px;
-            margin: 0;
+        
+        #game-board {
+            background-color: #1E1E1E;
+            border: 2px solid #4CAF50;
+            border-radius: 5px;
+            display: grid;
+            grid-template-rows: repeat(20, 1fr);
+            grid-template-columns: repeat(20, 1fr);
+            width: 100%;
+            aspect-ratio: 1/1;
         }
-        .post-content {
-            padding: 30px;
+        
+        .snake {
+            background-color: #4CAF50;
+            border: 1px solid #1E1E1E;
+            border-radius: 2px;
         }
-        .post-meta {
+        
+        .food {
+            background-color: #F44336;
+            border: 1px solid #1E1E1E;
+            border-radius: 50%;
+        }
+        
+        .controls {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 20px;
-            color: #7f8c8d;
-            font-size: 0.9rem;
-        }
-        
-        /* Галерея */
-        .gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 20px;
-            margin-top: 30px;
-        }
-        .gallery-item {
-            position: relative;
-            overflow: hidden;
-            border-radius: 8px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
-            transition: transform 0.3s;
-            height: 200px;
-        }
-        .gallery-item:hover {
-            transform: translateY(-5px);
-        }
-        .gallery-image {
             width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s;
-        }
-        .gallery-item:hover .gallery-image {
-            transform: scale(1.1);
-        }
-        .image-caption {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: rgba(0,0,0,0.7);
-            color: white;
+            max-width: 500px;
+            margin-top: 20px;
             padding: 10px;
-            margin: 0;
-            text-align: center;
-            transform: translateY(100%);
-            transition: transform 0.3s;
-        }
-        .gallery-item:hover .image-caption {
-            transform: translateY(0);
+            background-color: #1E1E1E;
+            border-radius: 5px;
         }
         
-        /* Контактная форма */
-        .contact-form {
-            background-color: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            max-width: 600px;
-            margin: 0 auto;
+        .score-display {
+            font-size: 1.2rem;
+            font-weight: bold;
         }
-        .form-group {
-            margin-bottom: 20px;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-        }
-        .form-group input,
-        .form-group textarea {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 1rem;
-        }
-        .form-group textarea {
-            height: 150px;
-            resize: vertical;
-        }
-        .submit-btn {
-            background-color: #2c3e50;
+        
+        button {
+            background-color: #4CAF50;
             color: white;
             border: none;
-            padding: 12px 25px;
+            padding: 8px 16px;
             border-radius: 4px;
             cursor: pointer;
-            font-size: 1rem;
+            font-weight: bold;
             transition: background-color 0.3s;
         }
-        .submit-btn:hover {
-            background-color: #34495e;
+        
+        button:hover {
+            background-color: #45a049;
         }
         
-        /* Подвал */
-        footer {
-            background-color: #2c3e50;
-            color: white;
+        .game-over {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-radius: 5px;
+            z-index: 10;
+            display: none;
+        }
+        
+        .game-over h2 {
+            color: #F44336;
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+        
+        .leaderboard {
+            margin-top: 30px;
+            width: 100%;
+            max-width: 500px;
+            background-color: #1E1E1E;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        
+        .leaderboard h2 {
+            color: #4CAF50;
+            margin-bottom: 10px;
             text-align: center;
-            padding: 20px;
-            margin-top: 50px;
         }
         
-        /* Адаптивность */
-        @media (max-width: 768px) {
-            nav ul {
+        #scores-list {
+            list-style-type: none;
+        }
+        
+        #scores-list li {
+            padding: 8px;
+            border-bottom: 1px solid #333;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        #scores-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .name-input {
+            margin-top: 20px;
+            display: none;
+        }
+        
+        .name-input input {
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #4CAF50;
+            background-color: #333;
+            color: white;
+            margin-right: 10px;
+            width: 200px;
+        }
+        
+        @media (max-width: 600px) {
+            .controls {
                 flex-direction: column;
-                align-items: center;
-            }
-            nav li {
-                margin: 5px 0;
-            }
-            .hero h1 {
-                font-size: 2rem;
-            }
-            .gallery {
-                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 10px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Навигация -->
-    <nav>
-        <ul>
-            <li><a href="#" class="nav-link active" data-page="home">Главная</a></li>
-            <li><a href="#" class="nav-link" data-page="blog">Блог</a></li>
-            <li><a href="#" class="nav-link" data-page="gallery">Галерея</a></li>
-            <li><a href="#" class="nav-link" data-page="contact">Контакты</a></li>
+    <header>
+        <h1>Змейка</h1>
+        <p>Используйте стрелки для управления</p>
+    </header>
+    
+    <div class="game-container">
+        <div id="game-board"></div>
+        <div class="game-over" id="game-over">
+            <h2>Игра окончена!</h2>
+            <p id="final-score">Ваш счет: 0</p>
+            <div class="name-input" id="name-input">
+                <input type="text" id="player-name" placeholder="Ваше имя" maxlength="20">
+                <button id="save-score">Сохранить</button>
+            </div>
+            <button id="restart-btn">Играть снова</button>
+        </div>
+    </div>
+    
+    <div class="controls">
+        <div class="score-display">Счет: <span id="score">0</span></div>
+        <button id="start-btn">Начать игру</button>
+    </div>
+    
+    <div class="leaderboard">
+        <h2>Лучшие игроки</h2>
+        <ul id="scores-list">
+            <li>Загрузка...</li>
         </ul>
-    </nav>
-
-    <!-- Главная страница -->
-    <div id="home" class="page active">
-        <div class="container">
-            <div class="hero">
-                <h1>Добро пожаловать на демонстрационный сайт</h1>
-                <p>Этот сайт создан для обучающего ролика и демонстрирует различные возможности HTML и CSS. Исследуйте разные страницы, чтобы увидеть примеры реализации различных элементов.</p>
-                <a href="#" class="btn nav-link" data-page="blog">Читать блог</a>
-            </div>
-            
-            <h2>О нашем проекте</h2>
-            <p>Этот сайт включает несколько ключевых страниц, которые помогут вам понять основы веб-разработки:</p>
-            <ul>
-                <li><strong>Главная страница</strong> - вводная информация и навигация</li>
-                <li><strong>Блог</strong> - пример статьи с текстом и изображениями</li>
-                <li><strong>Галерея</strong> - демонстрация работы с изображениями</li>
-                <li><strong>Контакты</strong> - пример формы обратной связи</li>
-            </ul>
-        </div>
     </div>
-
-    <!-- Блог -->
-    <div id="blog" class="page">
-        <div class="container">
-            <div class="blog-post">
-                <div class="post-header">
-                    <img src="https://source.unsplash.com/random/1200x600/?nature" alt="Природа" class="post-image">
-                    <h2 class="post-title">Как создать красивый блог на HTML и CSS</h2>
-                </div>
-                <div class="post-content">
-                    <div class="post-meta">
-                        <span>Автор: Иван Иванов</span>
-                        <span>Дата: 15 июля 2023</span>
-                    </div>
-                    <p>Создание блога - это отличный способ поделиться своими мыслями, знаниями и опытом с миром. В этой статье мы рассмотрим, как создать простой, но элегантный блог с использованием только HTML и CSS.</p>
-                    
-                    <h3>1. Структура HTML</h3>
-                    <p>Первым шагом является создание правильной структуры HTML. Нам понадобятся следующие основные элементы:</p>
-                    <ul>
-                        <li>Шапка сайта с навигацией</li>
-                        <li>Основная область контента для постов</li>
-                        <li>Боковая панель (опционально)</li>
-                        <li>Подвал сайта</li>
-                    </ul>
-                    
-                    <h3>2. Стилизация с CSS</h3>
-                    <p>После создания структуры мы можем приступить к стилизации. CSS позволяет нам:</p>
-                    <ul>
-                        <li>Задавать цвета и шрифты</li>
-                        <li>Создавать адаптивный дизайн</li>
-                        <li>Добавлять анимации и эффекты при наведении</li>
-                        <li>Управлять расположением элементов на странице</li>
-                    </ul>
-                    
-                    <img src="https://source.unsplash.com/random/800x400/?code" alt="Код программирования" style="width: 100%; border-radius: 8px; margin: 20px 0;">
-                    
-                    <h3>3. Добавление изображений</h3>
-                    <p>Изображения делают ваш блог более привлекательным. Важно:</p>
-                    <ul>
-                        <li>Использовать качественные изображения</li>
-                        <li>Оптимизировать их для веба</li>
-                        <li>Добавлять альтернативный текст для доступности</li>
-                        <li>Использовать современные форматы (WebP)</li>
-                    </ul>
-                    
-                    <p>Создание блога - это увлекательный процесс, который сочетает в себе творчество и технические навыки. Начните с простого, постепенно добавляя новые функции по мере обучения.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Галерея -->
-    <div id="gallery" class="page">
-        <div class="container">
-            <h1>Наша галерея</h1>
-            <p>Пример реализации галереи изображений с эффектами при наведении.</p>
-            
-            <div class="gallery">
-                <div class="gallery-item">
-                    <img src="https://source.unsplash.com/random/600x400/?mountain" alt="Горы" class="gallery-image">
-                    <p class="image-caption">Горный пейзаж</p>
-                </div>
-                <div class="gallery-item">
-                    <img src="https://source.unsplash.com/random/600x400/?ocean" alt="Океан" class="gallery-image">
-                    <p class="image-caption">Морской вид</p>
-                </div>
-                <div class="gallery-item">
-                    <img src="https://source.unsplash.com/random/600x400/?forest" alt="Лес" class="gallery-image">
-                    <p class="image-caption">Лесная тропа</p>
-                </div>
-                <div class="gallery-item">
-                    <img src="https://source.unsplash.com/random/600x400/?city" alt="Город" class="gallery-image">
-                    <p class="image-caption">Городской пейзаж</p>
-                </div>
-                <div class="gallery-item">
-                    <img src="https://source.unsplash.com/random/600x400/?animal" alt="Животное" class="gallery-image">
-                    <p class="image-caption">Дикая природа</p>
-                </div>
-                <div class="gallery-item">
-                    <img src="https://source.unsplash.com/random/600x400/?sunset" alt="Закат" class="gallery-image">
-                    <p class="image-caption">Красивый закат</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Контакты -->
-    <div id="contact" class="page">
-        <div class="container">
-            <h1>Свяжитесь с нами</h1>
-            <p>Заполните форму ниже, и мы ответим вам в ближайшее время.</p>
-            
-            <div class="contact-form">
-                <form id="contactForm">
-                    <div class="form-group">
-                        <label for="name">Ваше имя:</label>
-                        <input type="text" id="name" name="name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email:</label>
-                        <input type="email" id="email" name="email" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="subject">Тема:</label>
-                        <input type="text" id="subject" name="subject" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="message">Сообщение:</label>
-                        <textarea id="message" name="message" required></textarea>
-                    </div>
-                    <button type="submit" class="submit-btn">Отправить</button>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- Подвал -->
-    <footer>
-        <div class="container">
-            <p>&copy; 2023 Демонстрационный сайт для обучающего ролика. Все права защищены.</p>
-        </div>
-    </footer>
-
-    <!-- JavaScript -->
+    
     <script>
-        // Переключение между страницами
-        document.querySelectorAll('.nav-link').forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                // Удаляем активный класс у всех ссылок
-                document.querySelectorAll('.nav-link').forEach(el => {
-                    el.classList.remove('active');
-                });
-                
-                // Добавляем активный класс к текущей ссылке
-                this.classList.add('active');
-                
-                // Скрываем все страницы
-                document.querySelectorAll('.page').forEach(page => {
-                    page.classList.remove('active');
-                });
-                
-                // Показываем выбранную страницу
-                const pageId = this.getAttribute('data-page');
-                document.getElementById(pageId).classList.add('active');
-                
-                // Прокрутка вверх
-                window.scrollTo(0, 0);
+        // Игровые переменные
+        let snake = [{x: 10, y: 10}];
+        let food = generateFood();
+        let direction = 'right';
+        let nextDirection = 'right';
+        let gameSpeed = 150;
+        let gameInterval;
+        let score = 0;
+        let isGameRunning = false;
+        
+        // DOM элементы
+        const gameBoard = document.getElementById('game-board');
+        const scoreDisplay = document.getElementById('score');
+        const startBtn = document.getElementById('start-btn');
+        const restartBtn = document.getElementById('restart-btn');
+        const gameOverScreen = document.getElementById('game-over');
+        const finalScoreDisplay = document.getElementById('final-score');
+        const nameInput = document.getElementById('name-input');
+        const playerNameInput = document.getElementById('player-name');
+        const saveScoreBtn = document.getElementById('save-score');
+        const scoresList = document.getElementById('scores-list');
+        
+        // Инициализация игрового поля
+        function initGameBoard() {
+            gameBoard.innerHTML = '';
+            
+            // Создаем змейку
+            snake.forEach(segment => {
+                const snakeElement = document.createElement('div');
+                snakeElement.classList.add('snake');
+                snakeElement.style.gridRowStart = segment.y;
+                snakeElement.style.gridColumnStart = segment.x;
+                gameBoard.appendChild(snakeElement);
             });
+            
+            // Создаем еду
+            const foodElement = document.createElement('div');
+            foodElement.classList.add('food');
+            foodElement.style.gridRowStart = food.y;
+            foodElement.style.gridColumnStart = food.x;
+            gameBoard.appendChild(foodElement);
+        }
+        
+        // Генерация еды
+        function generateFood() {
+            let newFood;
+            do {
+                newFood = {
+                    x: Math.floor(Math.random() * 20) + 1,
+                    y: Math.floor(Math.random() * 20) + 1
+                };
+            } while (snake.some(segment => segment.x === newFood.x && segment.y === newFood.y));
+            
+            return newFood;
+        }
+        
+        // Движение змейки
+        function moveSnake() {
+            direction = nextDirection;
+            
+            const head = {...snake[0]};
+            
+            switch (direction) {
+                case 'up':
+                    head.y -= 1;
+                    break;
+                case 'down':
+                    head.y += 1;
+                    break;
+                case 'left':
+                    head.x -= 1;
+                    break;
+                case 'right':
+                    head.x += 1;
+                    break;
+            }
+            
+            // Проверка на столкновение с границами
+            if (head.x < 1 || head.x > 20 || head.y < 1 || head.y > 20) {
+                gameOver();
+                return;
+            }
+            
+            // Проверка на столкновение с собой
+            if (snake.some(segment => segment.x === head.x && segment.y === head.y)) {
+                gameOver();
+                return;
+            }
+            
+            snake.unshift(head);
+            
+            // Проверка на съедение еды
+            if (head.x === food.x && head.y === food.y) {
+                score += 10;
+                scoreDisplay.textContent = score;
+                food = generateFood();
+                
+                // Увеличиваем скорость каждые 50 очков
+                if (score % 50 === 0 && gameSpeed > 50) {
+                    gameSpeed -= 10;
+                    clearInterval(gameInterval);
+                    gameInterval = setInterval(gameLoop, gameSpeed);
+                }
+            } else {
+                snake.pop();
+            }
+            
+            initGameBoard();
+        }
+        
+        // Игровой цикл
+        function gameLoop() {
+            moveSnake();
+        }
+        
+        // Начало игры
+        function startGame() {
+            if (isGameRunning) return;
+            
+            // Сброс игровых переменных
+            snake = [{x: 10, y: 10}];
+            food = generateFood();
+            direction = 'right';
+            nextDirection = 'right';
+            gameSpeed = 150;
+            score = 0;
+            scoreDisplay.textContent = score;
+            isGameRunning = true;
+            
+            // Изменение кнопки
+            startBtn.textContent = 'Игра идет...';
+            startBtn.disabled = true;
+            
+            // Скрытие экрана окончания игры
+            gameOverScreen.style.display = 'none';
+            
+            // Запуск игрового цикла
+            gameInterval = setInterval(gameLoop, gameSpeed);
+            
+            // Загрузка таблицы лидеров
+            fetchScores();
+        }
+        
+        // Конец игры
+        function gameOver() {
+            clearInterval(gameInterval);
+            isGameRunning = false;
+            
+            // Показ экрана окончания игры
+            gameOverScreen.style.display = 'flex';
+            finalScoreDisplay.textContent = `Ваш счет: ${score}`;
+            
+            // Показ поля для ввода имени, если счет > 0
+            if (score > 0) {
+                nameInput.style.display = 'block';
+                playerNameInput.focus();
+            } else {
+                nameInput.style.display = 'none';
+            }
+            
+            // Возвращение кнопки в исходное состояние
+            startBtn.textContent = 'Начать игру';
+            startBtn.disabled = false;
+        }
+        
+        // Сохранение счета
+        async function saveScore() {
+            const playerName = playerNameInput.value.trim();
+            if (!playerName || score === 0) return;
+            
+            try {
+                const response = await fetch('/api/random-score.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        name: playerName,
+                        score: score
+                    })
+                });
+                
+                if (response.ok) {
+                    playerNameInput.value = '';
+                    nameInput.style.display = 'none';
+                    fetchScores();
+                }
+            } catch (error) {
+                console.error('Ошибка при сохранении счета:', error);
+            }
+        }
+        
+        // Загрузка таблицы лидеров
+        async function fetchScores() {
+            try {
+                const response = await fetch('/api/random-score.php');
+                const scores = await response.json();
+                
+                scoresList.innerHTML = '';
+                
+                if (scores.length === 0) {
+                    scoresList.innerHTML = '<li>Пока нет рекордов</li>';
+                    return;
+                }
+                
+                scores.slice(0, 10).forEach((item, index) => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `
+                        <span>${index + 1}. ${item.name}</span>
+                        <span>${item.score}</span>
+                    `;
+                    scoresList.appendChild(li);
+                });
+            } catch (error) {
+                console.error('Ошибка при загрузке таблицы лидеров:', error);
+                scoresList.innerHTML = '<li>Не удалось загрузить таблицу лидеров</li>';
+            }
+        }
+        
+        // Обработчики событий
+        startBtn.addEventListener('click', startGame);
+        restartBtn.addEventListener('click', startGame);
+        saveScoreBtn.addEventListener('click', saveScore);
+        
+        // Управление с клавиатуры
+        document.addEventListener('keydown', e => {
+            if (!isGameRunning) return;
+            
+            switch (e.key) {
+                case 'ArrowUp':
+                    if (direction !== 'down') nextDirection = 'up';
+                    break;
+                case 'ArrowDown':
+                    if (direction !== 'up') nextDirection = 'down';
+                    break;
+                case 'ArrowLeft':
+                    if (direction !== 'right') nextDirection = 'left';
+                    break;
+                case 'ArrowRight':
+                    if (direction !== 'left') nextDirection = 'right';
+                    break;
+            }
         });
         
-        // Обработка формы
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            alert('Спасибо за ваше сообщение! Мы свяжемся с вами в ближайшее время.');
-            this.reset();
-        });
+        // Инициализация
+        initGameBoard();
+        fetchScores();
     </script>
 </body>
 </html>
